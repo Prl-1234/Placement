@@ -332,6 +332,19 @@ public class ProfileActivity extends AppCompatActivity {
                                         email.setText(documentSnapshot.getString("email"));
                                         phone.setText(documentSnapshot.getString("phone"));
                                         notification.setText(documentSnapshot.getString("resume"));
+//                                        db.collection("users").document(documentSnapshot.getId()).addSnapshotListener(
+//                                                new EventListener<DocumentSnapshot>() {
+//                                                    @Override
+//                                                    public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @javax.annotation.Nullable FirebaseFirestoreException e) {
+//                                                        if (e != null) {
+//                                                            return;
+//                                                        }
+//                                                        if (documentSnapshot != null && documentSnapshot.exists()) {
+//                                                        } else {
+//                                                        }
+//                                                    }
+//                                                }
+//                                        );
                                         break;
                                     }
                                 }
@@ -345,6 +358,7 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                     }
                 });
+
     }
 
 
