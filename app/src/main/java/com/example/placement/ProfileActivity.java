@@ -101,8 +101,41 @@ public class ProfileActivity extends AppCompatActivity {
         selectFile = findViewById(R.id.selectFile);
         upload = findViewById(R.id.upload);
         notification = findViewById(R.id.notification);
+        selectFile.setVisibility(View.GONE);
+        upload.setVisibility(View.GONE);
+        notification.setVisibility(View.GONE);
 
-        db.collection("users");
+        db.collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            try {
+                                mAuth=FirebaseAuth.getInstance();
+                                FirebaseUser user=mAuth.getCurrentUser();
+                                String user_id=user.getUid();
+                                for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
+
+                                    if(documentSnapshot.getString("user_id").equals(user_id)){
+                                        if(documentSnapshot.getString("type").equals("Student")){
+                                            upload.setVisibility(View.VISIBLE);
+                                            notification.setVisibility(View.VISIBLE);
+                                                selectFile.setVisibility(View.VISIBLE);
+                                        }
+                                        break;
+                                    }
+                                }
+                            }catch (NullPointerException e){
+
+                            }
+
+                        }
+                        else{
+                            Toast.makeText(ProfileActivity.this,"File not uploaded successfully",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
         changephoto.setOnClickListener(new View.OnClickListener() {
             @Override
